@@ -1,0 +1,42 @@
+{{define "inicio"}}
+    {{template "cabecera"}}
+
+    <div class="container">
+                <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Apellido</th>
+                                    <th scope="col">Edad</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Telefono</th>
+                                    <th scope="col">Direccion</th>
+                                
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{range .}}
+                                <tr>
+                                    <th scope="row">{{.ID}}</th>
+                                    <td>{{.Nombre}}</td>
+                                    <td>{{.Apellido}}</td>
+                                    <td>{{.Edad}}</td>
+                                    <td>{{.Email}}</td>
+                                    <td>{{.Telefono}}</td>
+                                    <td>{{.Direccion}}</td>
+                                    <td>
+                                        <a href="/editar/{{.ID}}" class="btn btn-warning">Editar</a>
+                                        <a href="/eliminar/{{.ID}}" class="btn btn-danger">Eliminar</a>
+                                    </td>
+                                </tr>
+                                {{end}}
+                            </tbody>
+                </div>
+     </div>
+     
+    {{template "pie"}}
+
+
+
+{{end}}
