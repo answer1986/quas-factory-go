@@ -1,7 +1,9 @@
 package main
 
-import ("log"
-		"conexion_rutas/bbdd"
+import (
+	"log"
+	"quasfactory/conexion_rutas"
+	"quasfactory/metodos"
 )
 
 
@@ -9,8 +11,12 @@ import ("log"
 
 
 func main() {
-	Enrutador()
-	ConexionBD()
+
+	conexion_rutas.ConexionBD()
+	metodos.Login()
+	
+	
+	conexion_rutas.Enrutador()
 	log.Println("Servidor corriendo en http://localhost:9090")
 
 	

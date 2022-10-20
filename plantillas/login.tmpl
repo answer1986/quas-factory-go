@@ -13,20 +13,20 @@
                         <div class="card-header" th:text="#{text.login.titulo}">Por favor Sign In!</div>
                         <div class="card-body col-sm-6 mx-auto">
 
-                            <form  method="post" action= "/login-ok" >
+                            <form   name= "login" method="POST" action= "/login" >
 
                                 <div class="form-group  ">
-                                    <input type="text" name="username" id="username" class="form-control" th:placeholder="#{text.login.username}" autofocus required />
+                                    <input type="text" name="username" id="username" class="form-control"  autofocus required />
                                 </div>
 
                                 <div class="form-group ">
-                                    <input type="password" name="password" id="password" class="form-control" th:placeholder="#{text.login.password}" required />
+                                    <input type="password" name="password" id="password" class="form-control" " required />
                                 </div>
 
                                 <div class="form-group ">
-                                    <input type="submit" class="btn btn-lg btn-primary btn-block" th:value="#{text.login.boton}" />
+                                    <input type="submit" class="btn btn-lg btn-primary btn-block" value="Login"  title="Clickea aqui para logearte"/>
                                 </div>
-                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                
 
                             </form>
 
