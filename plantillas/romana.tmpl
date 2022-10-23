@@ -1,0 +1,85 @@
+{{define "romana"}}
+    {{template "cabecera"}}
+
+            <main role="main">
+            <hr>
+            <div class="container">
+                <div class="card">
+
+                    <h4 class="card-header" th:text="${titulo}"><strong>Romana</strong></h4>
+                    <br>
+                    <table class="table-bordered">
+
+                        <!--form copiado -->
+                        <form th:each="romana : ${romana}"  th:action="@{/bodega/romana/saveRomana}" th:object="${romana}" method="post"
+                            enctype="multipart/form-data">
+
+
+                                        <label for="romana.producto" th:text="#{text.romana.producto}">Tipo de producto:</label>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <!-- <div th:text="${romana.producto}"></div>-->
+                                                <select  style="width:30%">
+                                                    <option th:placeholder="Seleccione" >Seleccione</option>
+                                                    <option  th:value="${romana.materia_prima}" value="Materia prima">Materia prima</option>
+                                                    <option  th:value="${romana.scrap}" value="scrap">Scrap</option>
+                                                    <option  th:value="${romana.prd_term}" value="Producto terminado">Producto terminado</option>
+                                                    <option  th:value="${romana.otro}"value="otro">Otro</option>
+                                                </select>
+                                            </div>
+
+                                                <select>
+                                                    <option th:each="productos:${romana}" ></option>
+                                                </select>
+
+
+
+                                            <div class="col">
+                                                <label   th:field="*{id}" th:text="#{text.romana.oc}">Ingresa compra u orden de trabajo:</label>
+                                                <input  type="text"  th:field="*{orden_compra}" id="orden_compra" name="orden_compra">
+                                            </div>
+                                        </div>
+                                    <br>
+
+                                    <table class="table table-bordered"  style="table-layout: fixed; width: 100%;">
+                                        <thead bgcolor="ADADAD">
+                                            <tr>
+                                                <!--                   <th scope="col">Nombre</th> -->
+                                                <th scope="col" th:text="#{text.romana.peso}">Kilos</th>
+                                                <!--                   <th scope="col">Email</th> -->
+                                                <th scope="col"  th:text="#{text.romana.unidades}">Unidades</th>
+
+                                            </tr>
+                                        </thead>
+                                    </table>
+
+                                    <div class="row align-content-center">
+                                        <div class="col">
+                                            <input type="number" th:field="*{kilos}"  id="kilos" name="kilos">
+                                        </div>
+                                        <div class="col">
+                                            <input type="number" th:field="*{unidades}" id="unidades" name="unidades">
+                                        </div>
+                                    </div>
+                            <br>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <input type="submit"  th:value="${titulo}"
+                                        class="btn btn-success" />
+                                    <input type="reset" class="btn btn-warning" value="Limpiar" onclick="$('.is-invalid').removeClass('is-invalid');$(':input').not(':button, :submit, :reset, :hidden,:radio,:checkbox,option').removeAttr('value');$('option,:radio,:checkbox').removeAttr('selected').removeAttr('checked');">
+
+                                </div>
+                            </div>
+                        </form>
+                    </table>
+
+                </div>
+                                <br>
+
+
+                    <br></br>
+                    <p th:text="#{text.romana.leyenda}">.</p>
+            </div>
+        </main>
+        {{template "pie"}}
+{{end}}
