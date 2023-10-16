@@ -12,10 +12,11 @@ class OrdenDeTrabajo extends Model
     protected $table = 'orden_trabajo';
     protected $fillable = [
         'numero_oc',
+        'tipo_proceso',
         'numero_orden_compra',
         'cliente_id',
         'fecha',
-        'id_nombre_producto',
+        'producto_id',
         'cantidad',
         'id_foto',
         'fecha_comprometida',
@@ -28,6 +29,12 @@ class OrdenDeTrabajo extends Model
     {
         return $this->belongsTo(Cliente::class);
     }
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class);
+    }
+    
 }
 
 

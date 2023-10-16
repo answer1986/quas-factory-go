@@ -1,5 +1,5 @@
 @extends ('layouts/all')
-@extends('essencials/nav')
+@include('essencials/nav')
     
 @section('sidebar')
 <div id="mySidebar">
@@ -13,13 +13,16 @@
 @endsection
 
 
+
+
 @section('banner')
 <div class="container mt-5">
-    <h3 id="panel">Panel de control</h3>
+    <h3 id="panel" class="mb-4">Panel de control operativo</h3>
     
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
+    <div class="row mb-5">
+        <!-- Usuarios -->
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
                 <div class="card-body text-center">
                     <i class="fas fa-users fa-3x mb-3"></i>
                     <h5 class="card-title">Usuarios Totales</h5>
@@ -28,8 +31,9 @@
             </div>
         </div>
         
-        <div class="col-md-4">
-            <div class="card">
+        <!-- Clientes -->
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
                 <div class="card-body text-center">
                     <i class="fas fa-user-tie fa-3x mb-3"></i>
                     <h5 class="card-title">Clientes Totales</h5>
@@ -38,8 +42,20 @@
             </div>
         </div>
         
-        <div class="col-md-4">
-            <div class="card">
+        <!-- Ordenes de Trabajo -->
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-clipboard-list fa-3x mb-3"></i>
+                    <h5 class="card-title">Ordenes de Trabajo</h5>
+                    <p class="card-text">{{ $ordenesTrabajoCount ?? '' }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Productos -->
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
                 <div class="card-body text-center">
                     <i class="fas fa-box-open fa-3x mb-3"></i>
                     <h5 class="card-title">Productos Totales</h5>
@@ -47,64 +63,78 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container mt-5">
-    <h3>Status de produccion</h3>
-    
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Progreso de pedidos</h5>
-            <!-- Canvas para el Gráfico -->
-            <canvas id="myChart" width="400" height="200"></canvas>
-        </div>
-    </div>
 
-
-    <div class="container mt-5">
-        <h3>Status de la Bodega</h3>
-    </div>
-    <div class="row">
-        <!-- Caja de Inventario -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Inventario</h5>
-                    <p class="card-text">Items en Inventario: 1,500</p>
-                    <!-- Puedes agregar un icono de inventario con FontAwesome por ejemplo -->
-                    <i class="fas fa-boxes"></i>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Caja de Almacenes -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Almacenes</h5>
-                    <p class="card-text">Total Almacenes: 5</p>
-                    <!-- Icono de almacén -->
-                    <i class="fas fa-warehouse"></i>
-                </div>
-            </div>
-        </div>
-
-        <!-- Caja de Despacho -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Despacho</h5>
-                    <p class="card-text">Items a Despachar: 300</p>
-                    <!-- Icono de despacho -->
-                    <i class="fas fa-truck-loading"></i>
+        <!-- Materia Prima -->
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-cubes fa-3x mb-3"></i>
+                    <h5 class="card-title">Materia Prima</h5>
+                    <p class="card-text">{{ $materiaPrimaCount ?? '' }}</p>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<br>
+
+    <!-- Sección de gráfico de eficiencia -->
+    <div class="container mt-5 mb-5">
+        <h3>Gráfico de Eficiencia</h3>
+        <canvas id="eficienciaChart" width="800" height="600"></canvas>
+    </div>
+
+    <!-- Sección de tabla de eficiencia -->
+    <div class="container mt-5 mb-5">
+        <h3>Tabla de Eficiencia</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>OC</th>
+                    <th>Porcentaje de Avance</th>
+                    <th>Eficiencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($ordenes ?? [] as $orden)
+                    <tr>
+                        <td>{{ $orden->numero_oc }}</td>
+                        <td>{{ $orden->porcentaje_progreso }}%</td>
+                        <td>{{ $orden->porcentaje_progreso / $ordenesTrabajoCount }}%</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Sección de bodega -->
+    <div class="container mt-5 mb-5">
+        <h3 class="mb-4">Status de la Bodega</h3>
+        <div class="row">
+            @php
+                $bodegaCards = [
+                    ['icon' => 'fas fa-boxes', 'title' => 'Inventario', 'text' => 'Items en Inventario', 'count' => $inventarioCount ?? ''],
+                    ['icon' => 'fas fa-warehouse', 'title' => 'Almacenes', 'text' => 'Total Almacenes', 'count' => $almacenesCount ?? ''],
+                    ['icon' => 'fas fa-truck-loading', 'title' => 'Despacho', 'text' => 'Items a Despachar', 'count' => $despachoCount ?? ''],
+                    ['icon' => 'fas fa-trash', 'title' => 'Scrap', 'text' => 'Kilos de Scrap', 'count' => $scrapKilos ?? ''],
+                ];
+            @endphp
+
+            @foreach($bodegaCards as $card)
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="{{ $card['icon'] }} fa-3x mb-3"></i>
+                        <h5 class="card-title">{{ $card['title'] }}</h5>
+                        <p class="card-text">{{ $card['text'] }}: {{ $card['count'] ?? 'N/A' }}</p>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
 @endsection
 
 
 
 
-@extends('essencials/footer')
+@include('essencials/footer')
+

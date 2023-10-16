@@ -12,6 +12,8 @@ use App\Http\Controllers\IngresoMateriaPrimaController;
 use App\Http\Controllers\ScrapController;
 use App\Http\Controllers\OrdenDeTrabajoController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\TableroProduccionController;
+
 
 
 //logeo
@@ -31,8 +33,9 @@ Auth::routes([
 ]);
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
-
+   // Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
+   Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+ 
 // Rutas de Registro Personalizadas
 Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register.form');
 Route::post('register', [RegisterController::class, 'register'])->name('register');
@@ -108,31 +111,16 @@ Route::post('register', [RegisterController::class, 'register'])->name('register
 
     Route::post('/producto-terminado', [ProductoTerminadoController::class, 'store'])->name('producto-terminado.store');
 
-
-
     });
 
     //ingreso a producion
-Route::prefix('produccion')->group(function () {
-    // Ruta para la vista de ingreso
-    Route::get('ingreso', function () {
-        return view('produccion.ingreso');
-    })->name('produccion.ingreso');
-
-
-
-    // Rutas relacionadas con las Ordenes de Trabajo
-    Route::prefix('ordenes')->group(function () {
-        Route::get('/', [OrdenDeTrabajoController::class, 'index'])->name('produccion.ordenes.index');
-        Route::get('create', [OrdenDeTrabajoController::class, 'create'])->name('produccion.ordenes.create');
-        Route::post('/', [OrdenDeTrabajoController::class, 'store'])->name('produccion.ordenes.store');
-        Route::get('{orden}', [OrdenDeTrabajoController::class, 'show'])->name('produccion.ordenes.show');
-        Route::get('{orden}/edit', [OrdenDeTrabajoController::class, 'edit'])->name('produccion.ordenes.edit');
-        Route::put('{orden}', [OrdenDeTrabajoController::class, 'update'])->name('produccion.ordenes.update');
-        Route::delete('{orden}', [OrdenDeTrabajoController::class, 'destroy'])->name('produccion.ordenes.destroy');
-    });
-});
-
+    Route::prefix('produccion')->group(function () {
+        // Ruta para la vista de ingreso usando el controlador
+        Route::get('ingreso', [OrdenDeTrabajoController::class, 'create'])->name('ingreso.create');
+        Route::post('ingreso', [OrdenDeTrabajoController::class, 'store'])->name('ingreso.store');
     
+        Route::get('tablero', [TableroProduccionController::class, 'index'])->name('tablero.index');
 
-});
+    });
+    
+ });

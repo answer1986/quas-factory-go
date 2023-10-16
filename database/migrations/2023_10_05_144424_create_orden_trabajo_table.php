@@ -16,6 +16,13 @@ class CreateOrdenTrabajoTable extends Migration
         Schema::create('orden_trabajo', function (Blueprint $table) {
             $table->id();
             $table->string('numero_oc');
+            $table->enum('tipo_proceso', [
+                'estruccion', 'sellado', 'micro perforado'
+            ]);
+            $table->unsignedBigInteger('cliente_id');
+            $table->foreign('cliente_id')->references('id')->on('clientes'); // Asegúrate de que la tabla se llame 'clientes'
+            $table->unsignedBigInteger('producto_id'); // Cambié id_nombre_producto a producto_id para que sea más claro
+            $table->foreign('producto_id')->references('id')->on('productos'); // Asegúrate de que la tabla se llame 'productos'
             $table->date('fecha');
             $table->integer('cantidad');
             $table->date('fecha_comprometida');
@@ -25,6 +32,7 @@ class CreateOrdenTrabajoTable extends Migration
             $table->timestamps();
         });
     }
+    
     /**
      * Reverse the migrations.
      *

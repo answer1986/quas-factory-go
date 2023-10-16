@@ -22,16 +22,16 @@
 
 <body>
 
-        <div class="fondo-1" id="fondo-1"> 
-            @yield('nav')
-            <button onclick="toggleSidebar()" id="toggleBtn">?</button>
+         <div class="fondo-1" id="fondo-1"> 
+                @yield('nav')
+                <button onclick="toggleSidebar()" id="toggleBtn">?</button>
 
-            @yield('sidebar') <!-- Incluir el sidebar -->
+                @yield('sidebar') <!-- Incluir el sidebar -->
 
-            @yield('banner')
+                @yield('banner')
 
-        </div>
-        <div class="fondo-2" id="fondo-2">
+         </div>
+         <div class="fondo-2" id="fondo-2">
             @yield('casos')
             @yield('cliente')
             @yield('contacto-rapido')
@@ -44,6 +44,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> <!-- (Opcional) Para tooltips y popovers -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <script>
     function toggleSidebar() {
         document.getElementById('mySidebar').classList.toggle('active');
@@ -94,3 +95,114 @@
         options: options
     });
 </script>
+
+<script>
+    var ctxOverall = document.getElementById('overallProgressChart').getContext('2d');
+    var overallChart = new Chart(ctxOverall, {
+        type: 'doughnut',
+        data: {
+            labels: ['Promedio de Progreso', 'Restante'],
+            datasets: [{
+                data: [promedioProgreso, restante],
+                backgroundColor: ['#007bff', '#e9ecef'],
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: true,
+                position: 'right'
+            },
+            cutoutPercentage: 80
+        }
+    });
+</script>
+
+<script>
+    var totalEstruccion = 0;
+    var totalSellado = 0;
+    var totalMicroperforado = 0;
+
+    var countEstruccion = 0;
+    var countSellado = 0;
+    var countMicroperforado = 0;
+
+    @foreach($ordenes ?? [] as $orden)
+        @if($orden->tipo_proceso == 'Estruccion')
+            totalEstruccion += {{ $orden->porcentaje_progreso }};
+            countEstruccion++;
+        @elseif($orden->tipo_proceso == 'Sellado')
+            totalSellado += {{ $orden->porcentaje_progreso }};
+            countSellado++;
+        @elseif($orden->tipo_proceso == 'Microperforado')
+            totalMicroperforado += {{ $orden->porcentaje_progreso }};
+            countMicroperforado++;
+        @endif
+    @endforeach
+
+    var promedioEstruccion = countEstruccion > 0 ? totalEstruccion / countEstruccion : 0;
+    var promedioSellado = countSellado > 0 ? totalSellado / countSellado : 0;
+    var promedioMicroperforado = countMicroperforado > 0 ? totalMicroperforado / countMicroperforado : 0;
+</script>
+
+
+
+<script>
+    // Actualizar la visualización del porcentaje en las barras de progreso
+    document.getElementById('estrPercentage').textContent = promedioEstruccion.toFixed(2);
+    document.getElementById('sellPercentage').textContent = promedioSellado.toFixed(2);
+    document.getElementById('microPercentage').textContent = promedioMicroperforado.toFixed(2);
+</script>
+
+<script>
+        // Calcular el progreso promedio
+        var totalProgreso = 0;
+        var totalOrdenes = {{ count($ordenes ?? []) }};
+
+        @foreach($ordenes ?? [] as $orden)
+            totalProgreso += {{ $orden->porcentaje_progreso }};
+        @endforeach
+
+        var promedioProgreso = totalProgreso / totalOrdenes;
+        var restante = 100 - promedioProgreso;
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        @if(isset($ordenes))
+            let ordenes = @json($ordenes);
+            let labels = ordenes.map(orden => orden.numero_oc);
+            let data = ordenes.map(orden => orden.porcentaje_progreso);
+
+            let ctx = document.getElementById('eficienciaChart').getContext('2d');
+            let chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Porcentaje de Avance',
+                        data: data,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        @endif
+    });
+</script>
+
+
+
+</body>
+</html>

@@ -9,8 +9,16 @@ class Producto extends Model
 {
     use HasFactory;
     
-    // Si necesitas especificar la tabla (opcional en este caso):
-    // protected $table = 'productos';
+    
+    const PROCESO_ESTRUCCION = 'estruccion';
+    const PROCESO_SELLADO = 'sellado';
+    const PROCESO_MICRO_PERFORADO = 'micro perforado';
+
+    public static $tiposDeProceso = [
+        self::PROCESO_ESTRUCCION,
+        self::PROCESO_SELLADO,
+        self::PROCESO_MICRO_PERFORADO,
+    ];
     
     protected $fillable = [
         'nombre',
