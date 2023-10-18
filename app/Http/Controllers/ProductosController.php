@@ -14,6 +14,7 @@ class ProductosController extends Controller
         'material_base' => 'required|string',
         'pintura' => 'required|string',
         'medida' => 'required|string',
+        'cantidad' => 'required|integer',
         'ancho' => 'required|string',
         'foto' => 'nullable|image|max:2048', // Aceptar solo imágenes y limitar el tamaño del archivo a 2048KB.
         // ... otras reglas de validación ...
@@ -27,6 +28,7 @@ class ProductosController extends Controller
     $productos->pintura = $request->input('pintura');
     $productos->medida = $request->input('medida');
     $productos->ancho = $request->input('ancho');
+    $productos->cantidad = $request->input('cantidad');
     // y así sucesivamente para todos los campos necesarios...
     
     if ($request->hasFile('foto')) {

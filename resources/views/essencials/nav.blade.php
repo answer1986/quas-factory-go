@@ -28,6 +28,7 @@
                                         <a class="dropdown-item" href="{{url('bodega/producto-terminado') }}">{{ $section === 'Bodega' ? 'Agregar productos terminado' : 'Edicion de ' . strtolower($section) }}</a>
                                     @endif
                                         @if($section === 'Produccion')
+                                        <a class="dropdown-item" href="{{url('produccion/programacion') }}">Programacion Produccion</a>
                                         <a class="dropdown-item" href="{{url('produccion/tablero') }}">Status de Ordenes</a>
                                         <a class="dropdown-item" href="{{url('produccion/ingreso') }}">Ingreso a Produccion</a>
                                         <a class="dropdown-item" href="#">Automatizacion</a>

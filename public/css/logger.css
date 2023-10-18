@@ -477,3 +477,8 @@ select {
 #contenedor-torta{
    margin-top: 2%;
 }
+
+#calendar{
+   margin: 2%;
+   width: 900px;
+}

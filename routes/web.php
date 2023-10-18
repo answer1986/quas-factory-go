@@ -13,6 +13,7 @@ use App\Http\Controllers\ScrapController;
 use App\Http\Controllers\OrdenDeTrabajoController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\TableroProduccionController;
+use App\Http\Controllers\ProgramacionController;
 
 
 
@@ -120,6 +121,12 @@ Route::post('register', [RegisterController::class, 'register'])->name('register
         Route::post('ingreso', [OrdenDeTrabajoController::class, 'store'])->name('ingreso.store');
     
         Route::get('tablero', [TableroProduccionController::class, 'index'])->name('tablero.index');
+
+        Route::get('/programacion', [ProgramacionController::class, 'getEvents'])->name('calendario.getEvents');
+        
+        Route::get('/programacion', [ProgramacionController::class, 'showCalendar'])->name('calendario.show');
+        Route::get('/programacion/data', [ProgramacionController::class, 'getEvents'])->name('calendario.data');
+        
 
     });
     

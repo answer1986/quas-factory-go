@@ -48,6 +48,9 @@
     
     <label for="ancho" id="ancho-label">Ancho:</label>
     <input type="text" id="ancho" name="ancho" required><br><br>
+
+    <label for="cantidad" id="cantidad">Cantidad:</label>
+    <input type="number" id="cantidad" name="cantidad" required><br><br>
     
     <label for="observaciones" id="observaciones-label">Observaciones:</label>
     <textarea id="observaciones" name="observaciones"></textarea><br><br>
