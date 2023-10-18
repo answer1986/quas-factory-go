@@ -20,6 +20,36 @@
     </div>
 
     <div class="col">
+        <div class="container mt-5">
+            <h2>Productos Disponibles</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nombre del Producto</th>
+                        <th>Material Base</th>
+                        <th>Pintura</th>
+                        <th>Medida</th>
+                        <th>Ancho</th>
+                        <th>Observaciones</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($productos ?? [] as $producto)
+                        <tr>
+                            <td>{{ $producto->nombre }}</td>
+                            <td>{{ $producto->material_base }}</td>
+                            <td>{{ $producto->pintura }}</td>
+                            <td>{{ $producto->medida }}</td>
+                            <td>{{ $producto->ancho }}</td>
+                            <td>{{ $producto->observaciones }}</td>
+                            <td>{{ $producto->cantidad }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
     
     </div>
 

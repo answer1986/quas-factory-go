@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Producto;
 use App\Models\Programacion;
 use Illuminate\Http\Request;
 use App\Models\OrdenDeTrabajo;
@@ -15,22 +16,28 @@ class ProgramacionController extends Controller
      */
 
      public function showCalendar() {
-        return view('produccion.programacion');  
+        $productos = Producto::all();
+        return view('produccion.programacion', compact('productos')); 
      }
 
     public function getEvents() {
         $events = Programacion::all();
         
         $calendarEvents = [];
-        foreach ($programaciones as $programacion) {
-        $events[] = [
-            'title' => 'Algún título representativo', // Puedes cambiar esto por algún campo de tu tabla si es necesario
+        foreach ($events as $programacion) {
+        $calendarEvents[] = [
+            'title' => $programacion->numero_oc, // Puedes cambiar esto por algún campo de tu tabla si es necesario
             'start' => $programacion->fecha,
             'end' => $programacion->fecha_comprometida
         ];
     }
     
         return response()->json($calendarEvents);
+    }
+
+    public function mostrarProductos(){
+        $productos = Producto::all();
+        return view ('produccion.programacion',compact('productos'));
     }
     
      
