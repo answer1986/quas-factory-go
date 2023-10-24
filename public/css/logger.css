@@ -38,10 +38,8 @@ body{
  }
 
  #fecha{
-    color:aliceblue;
+    color:rgb(10, 10, 10);
     margin-top:0.2%;
-    margin-left: 2.5%;
-    text-align: end;
  }
 
  #logout{
@@ -424,6 +422,7 @@ select {
 }
 
 #observaciones{
+   margin-top: 1;
    width: 100%;
    height: 30%;
    margin-bottom: 3%;

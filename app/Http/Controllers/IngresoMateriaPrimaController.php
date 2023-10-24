@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\IngresoMateriaPrima;
+use Milon\Barcode\DNS1D;
+
 
 class IngresoMateriaPrimaController extends Controller
 {
@@ -25,11 +27,19 @@ class IngresoMateriaPrimaController extends Controller
             'descripcion' => 'nullable|string',
         ]);
     
-        // Crear un nuevo ingreso de materia prima en la base de datos
-        IngresoMateriaPrima::create($request->all());
+        // Crear el registro
+        $ingreso = IngresoMateriaPrima::create($request->all());
+
+        // Generar el código de barras y guardar la ruta del archivo PNG
+        $barcodePath = DNS1D::getBarcodePNGPath(strval($ingreso->id), "C128", 3, 33);
+        $ingreso->barcode_path = $barcodePath;
+        $ingreso->save();
+        session(['barcode' => $barcodePath]);
     
         return redirect()->route('bodega.materia')->with('success', 'Ingreso de materia prima registrado exitosamente');
+        
     }
+    
     
 
     public function show($id)

@@ -221,6 +221,25 @@
         });
 
     </script>
+    <script>
+        function showClientImage() {
+            let select = document.getElementById('cliente_id');
+            let selectedOption = select.options[select.selectedIndex];
+            let imgSrc = selectedOption.getAttribute('data-img');
+            let imgElem = document.getElementById('client_image');
+            
+            if (imgSrc) {
+                imgElem.src = imgSrc;
+                imgElem.style.display = 'block';
+            } else {
+                imgElem.style.display = 'none';
+            }
+        }
+
+</script>
+
+
+
 
 
 

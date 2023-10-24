@@ -18,12 +18,13 @@ class CreateProductosTable extends Migration
             $table->string('nombre');
             $table->string('material_base');
             $table->string('pintura');
-            $table->decimal('medida', 8, 2); // Asume que puedes tener hasta 8 dígitos en total y 2 decimales.
-            $table->decimal('ancho', 8, 2);  // Asume que puedes tener hasta 8 dígitos en total y 2 decimales.
+            $table->decimal('ancho', 8, 2);  
+            $table->decimal('alto', 8, 2);  
             $table->text('observaciones')->nullable();
-            $table->string('foto')->nullable(); //ruta del archivo de la imagen
-            $table->unsignedInteger('cantidad'); // Asume que no tendrás valores negativos.
+            $table->string('foto')->nullable(); 
+            $table->unsignedInteger('cantidad'); 
             $table->timestamps();
+            
         });
         
     }

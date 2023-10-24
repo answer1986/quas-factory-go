@@ -39,8 +39,10 @@
         id="contenedor-oc">
         @csrf
         @if(isset($orden))
-            @method('PUT')
+         @method('PATCH')
+            <input type="hidden" name="id" value="{{ $orden->id }}">
         @endif
+
 
         <!-- Cliente -->
         <label for="cliente_id">Cliente:</label>
@@ -81,12 +83,31 @@
             required>
         <br>
 
-        <label for="tipo_proceso">Tipo de Proceso:</label>
-        <select name="tipo_proceso" id="tipo_proceso" required>
+        <label for="extrusora">Selecciona Extrusora disponible:</label>
+        <select name="extrusora" id="extrusora" required>
+            <option value="" disabled selected>Seleccione una maquina...</option>
+            
+            <option value="extrusora1" {{ (isset($orden) && $orden->extrusora == 'extrusora1') ? 'selected' : '' }}>Extrusora 1</option>
+            <option value="extrusora2" {{ (isset($orden) && $orden->extrusora == 'extrusora2') ? 'selected' : '' }}>Extrusora 2</option>
+            <option value="extrusora3" {{ (isset($orden) && $orden->extrusora == 'extrusora3') ? 'selected' : '' }}>Extrusora 3</option>
+        </select>
+        <br>
+
+        <label for="selladora">Selecciona Selladora disponible:</label>
+        <select name="selladora" id="selladora" required>
             <option value="" disabled selected>Seleccione un tipo de proceso</option>
-            <option value="estruccion" {{ (isset($orden) && $orden->tipo_proceso == 'estruccion') ? 'selected' : '' }}>Estruccion</option>
-            <option value="sellado" {{ (isset($orden) && $orden->tipo_proceso == 'sellado') ? 'selected' : '' }}>Sellado</option>
-            <option value="micro perforado" {{ (isset($orden) && $orden->tipo_proceso == 'micro perforado') ? 'selected' : '' }}>Micro Perforado</option>
+            <option value="selladora1" {{ (isset($orden) && $orden->selladora == 'selladora1') ? 'selected' : '' }}>Selladora1</option>
+            <option value="selladora2" {{ (isset($orden) && $orden->selladora == 'selladora2') ? 'selected' : '' }}>Selladora2</option>
+            <option value="selladora3" {{ (isset($orden) && $orden->selladora == 'selladora3') ? 'selected' : '' }}>Selladora3</option>
+        </select>
+        <br>    
+
+        <label for="microperforadora">Selecciona Microperforadora disponible:</label>
+        <select name="microperforadora" id="microperforadora" required>
+            <option value="" disabled selected>Seleccione un tipo de proceso</option>
+            <option value="microperforadora1" {{ (isset($orden) && $orden->tipo_proceso == 'microperforadora1') ? 'selected' : '' }}>microperforadora1</option>
+            <option value="microperforadora2" {{ (isset($orden) && $orden->tipo_proceso == 'microperforadora2') ? 'selected' : '' }}>microperforadora2</option>
+            <option value="microperforadora3" {{ (isset($orden) && $orden->tipo_proceso == 'microperforadora3 ') ? 'selected' : '' }}>microperforadora3</option>
         </select>
         <br>
 
@@ -106,7 +127,7 @@
 
 
         <!-- Fecha -->
-        <label for="fecha">Fecha:</label>
+        <label for="fecha" style= "text-color:black">Fecha:</label>
         <input 
             type="date" 
             name="fecha" 
@@ -167,12 +188,9 @@
         <br>
         
         <!-- Observaciones -->
+        <br>
         <label for="observaciones">Observaciones:</label>
-        <textarea 
-            name="observaciones" 
-            id="observaciones" >
-            {{ $orden->observaciones ?? '' }}
-        </textarea>
+        <textarea  name="observaciones" id="observaciones" style= "width:100%">{{ $orden->observaciones ?? '' }}</textarea>
         <br>
         
         <!-- Botón de Envío -->

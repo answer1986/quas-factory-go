@@ -22,7 +22,10 @@ class OrdenDeTrabajo extends Model
         'fecha_comprometida',
         'status_oc',
         'porcentaje_progreso',
-        'observaciones'
+        'observaciones',
+        'extrusora',
+        'selladora',
+        'microperforadora'
     ];
 
     public function cliente()
@@ -34,6 +37,11 @@ class OrdenDeTrabajo extends Model
     {
         return $this->belongsTo(Producto::class);
     }
+    public function maquinaReservas()
+{
+    return $this->hasMany(MaquinaReserva::class);
+}
+
     
 }
 

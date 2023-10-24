@@ -27,7 +27,16 @@
         </ul>
     </div>
 @endif
+
+@if(session('barcode'))
+    <div class="barcode-container">
+        <h3>Código de barras para el ingreso:</h3>
+<img src="{{ asset('storage/barcodes/' . ($ingreso->barcode ?? '')) }}" alt="Código de barras">
+
+    </div>
+@endif
 <h2 id="materia-prima">Ingreso de Materias Primas</h2>
+
     <form action="{{ route('materia.store') }}" method="post" id="formulario-materia">
     @csrf
         <label for="tipo_materia">Tipo de Materia Prima:</label>

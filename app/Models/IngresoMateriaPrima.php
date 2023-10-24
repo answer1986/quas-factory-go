@@ -17,5 +17,6 @@ class IngresoMateriaPrima extends Model
         'proveedor',
         'fecha_ingreso',
         'descripcion',
+        'barcode_path', 
     ];
 }

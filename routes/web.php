@@ -14,6 +14,7 @@ use App\Http\Controllers\OrdenDeTrabajoController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\TableroProduccionController;
 use App\Http\Controllers\ProgramacionController;
+use App\Http\Controllers\MaquinaReservaController;
 
 
 
@@ -127,6 +128,8 @@ Route::post('register', [RegisterController::class, 'register'])->name('register
         Route::get('/programacion', [ProgramacionController::class, 'showCalendar'])->name('calendario.show');
         Route::get('/programacion/data', [ProgramacionController::class, 'getEvents'])->name('calendario.data');
         
+        Route::resource('maquina_reservas', MaquinaReservaController::class);
+
 
     });
     

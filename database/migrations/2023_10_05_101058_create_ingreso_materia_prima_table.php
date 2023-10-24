@@ -20,6 +20,7 @@ class CreateIngresoMateriaPrimaTable extends Migration
             $table->string('proveedor');
             $table->date('fecha_ingreso');
             $table->text('descripcion')->nullable();
+            $table->string('barcode_path')->nullable();  // Agrega esta línea
             $table->timestamps();
         });
     }

@@ -6,6 +6,8 @@ use App\Models\OrdenDeTrabajo;
 use App\Models\Cliente;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use App\Models\MaquinaReserva;
+
 
 class OrdenDeTrabajoController extends Controller
 {
@@ -26,11 +28,14 @@ class OrdenDeTrabajoController extends Controller
     {
         $this->validateRequest($request);
         $this->adjustOrderStatus($request);
-
+    
         $orden = OrdenDeTrabajo::create($request->all());
+    
+        $this->storeMaquinaReservas($orden, $request);
+    
         return redirect()->route('ingreso.create')->with('success', 'Orden creada exitosamente.');
-
     }
+    
 
     public function show(OrdenDeTrabajo $orden)
     {
@@ -45,13 +50,19 @@ class OrdenDeTrabajoController extends Controller
     }
 
     public function update(Request $request, OrdenDeTrabajo $orden)
-    {
-        $this->validateRequest($request, $orden->id);
-        $this->adjustOrderStatus($request);
+{
+    $this->validateRequest($request, $orden->id);
+    $this->adjustOrderStatus($request);
 
-        $orden->update($request->all());
-        return redirect()->route('ingreso.create')->with('success', 'Orden actualizada exitosamente.');
-    }
+    $orden->update($request->all());
+
+    // Elimina las reservas anteriores y crea las nuevas
+    $orden->maquinaReservas()->delete();
+    $this->storeMaquinaReservas($orden, $request);
+
+    return redirect()->route('ingreso.create')->with('success', 'Orden actualizada exitosamente.');
+}
+
 
     public function destroy(OrdenDeTrabajo $orden)
     {
@@ -63,15 +74,21 @@ class OrdenDeTrabajoController extends Controller
     {
         $rules = [
             'numero_oc' => 'required|unique:orden_trabajo,numero_oc,' . $id,
-            'tipo_proceso' => 'required|in:estruccion,sellado,micro perforado',
             'cliente_id' => 'required|exists:clientes,id',
             'producto_id' => 'required|exists:productos,id',
+            'extrusora'=>'required|exists',
+            'selladora'=>'required|exists',
+            'microperforadora'=>'required|exists',
             'fecha' => 'required|date',
             'cantidad' => 'required|integer',
             'fecha_comprometida' => 'required|date',
             'status_oc' => 'required|string',
             'porcentaje_progreso' => 'required|numeric|between:0,100',
             'observaciones' => 'nullable|string',
+            'extrusora' => 'required|in:extrusora1,extrusora2,extrusora3',
+            'selladora' => 'required|in:selladora1,selladora2,selladora3',
+            'microperforadora' => 'required|in:microperforadora1,microperforadora2,microperforadora3',
+            
         ];
         
         $messages = [
@@ -111,6 +128,22 @@ class OrdenDeTrabajoController extends Controller
         $newStatus = $transitions[$tipoProceso][$statusOC];
         $request->merge(['status_oc' => $newStatus]);
     }
+
 }
+private function storeMaquinaReservas($orden, $request)
+{
+    $maquinas = ['maquina_tipo' => 'extrusora', 'maquina_tipo' => 'selladora', 'maquina_tipo' => 'microperforadora'];
+
+    foreach ($maquinas as $tipo => $maquina) {
+        MaquinaReserva::create([
+            'maquina_tipo' => $tipo,
+            'maquina_nombre' => $request->input($maquina),
+            'fecha_reserva' => $orden->fecha,
+            'orden_trabajo_id' => $orden->id
+        ]);
+    }
+}
+
+
 
 }
